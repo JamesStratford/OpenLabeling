@@ -1,6 +1,6 @@
 *.pyc
 .idea/
-venv/
+.venv/
 main/input
 main/output
 object_detection/models/*
