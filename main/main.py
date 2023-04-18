@@ -389,6 +389,7 @@ def draw_bboxes_from_file(tmp_img, annotation_paths, width, height):
     else:
         # Drawing bounding boxes from the YOLO files
         ann_path = next(path for path in annotation_paths if 'YOLO_darknet' in path)
+    font_scale = 0.5 * LINE_THICKNESS
     if os.path.isfile(ann_path):
         if DRAW_FROM_PASCAL:
             tree = ET.parse(ann_path)
@@ -405,7 +406,7 @@ def draw_bboxes_from_file(tmp_img, annotation_paths, width, height):
                     if idx == selected_bbox:
                         tmp_img = draw_bbox_anchors(tmp_img, xmin, ymin, xmax, ymax, color)
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(tmp_img, class_name, (xmin, ymin - 5), font, 0.6, color, LINE_THICKNESS, cv2.LINE_AA)
+                cv2.putText(tmp_img, class_name, (xmin, ymin - 5), font, font_scale, color, LINE_THICKNESS, cv2.LINE_AA)
         else:
             # Draw from YOLO
             with open(ann_path) as fp:
@@ -422,7 +423,7 @@ def draw_bboxes_from_file(tmp_img, annotation_paths, width, height):
                         if idx == selected_bbox:
                             tmp_img = draw_bbox_anchors(tmp_img, xmin, ymin, xmax, ymax, color)
                     font = cv2.FONT_HERSHEY_SIMPLEX
-                    cv2.putText(tmp_img, class_name, (xmin, ymin - 5), font, 0.6, color, LINE_THICKNESS, cv2.LINE_AA)
+                    cv2.putText(tmp_img, class_name, (xmin, ymin - 5), font, font_scale, color, LINE_THICKNESS, cv2.LINE_AA)
     return tmp_img
 
 
@@ -1083,7 +1084,7 @@ if __name__ == '__main__':
         # write selected class
         class_name = CLASS_LIST[class_index]
         font = cv2.FONT_HERSHEY_SIMPLEX
-        font_scale = 0.6
+        font_scale = 0.5 * LINE_THICKNESS
         margin = 3
         text_width, text_height = cv2.getTextSize(class_name, font, font_scale, LINE_THICKNESS)[0]
         tmp_img = cv2.rectangle(tmp_img, (mouse_x + LINE_THICKNESS, mouse_y - LINE_THICKNESS), (mouse_x + text_width + margin, mouse_y - text_height - margin), complement_bgr(color), -1)
